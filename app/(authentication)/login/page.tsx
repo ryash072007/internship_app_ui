@@ -16,12 +16,14 @@ function onSubmit(data: any) {
     const ParseResult = LoginFormData.safeParse(data)
     if (!ParseResult.success) {
         console.log("Invalid Username / Password")
+    } else {
+        console.log("Valid Username / Password")
     }
-    return console.log(data)
+    console.log(data)
 }
 
 const LoginPage = () => {
-    
+
     const {
         register,
         handleSubmit,
@@ -38,7 +40,7 @@ const LoginPage = () => {
                     Login
                 </title>
             </head>
-            <body className='font-mono h-screen w-screen bg-black grid justify-center content-center'>
+            <body  className='font-mono h-screen w-screen bg-black grid justify-center content-center'>
                 <div className='w-min text-center justify-center align-center'>
                     <div className='border flex flex-col p-14'>
                         <div className='HeadingContainer'>
