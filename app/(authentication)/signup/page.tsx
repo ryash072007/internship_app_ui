@@ -5,28 +5,29 @@ import { Button } from '@/components/ui/button'
 import { useForm, SubmitHandler } from "react-hook-form"
 import { z } from "zod";
 import { zodResolver } from '@hookform/resolvers/zod'
+import {SignUpValidator} from '@/lib/validation/signup.validator'
+import { UserService } from '@/service/user.service'
 
 // username, email, phone number, password, confirm password
+// TODO (06/08)
+// use toast library to display the message
+// fetch data and dissplay in table (api) all users (another page -> user list)
 
-const LoginFormData = z.object({
-    Password: z.string().regex(RegExp("^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$"), "Invalid Password"),
-    Email: z.string().email("Invalid Email Format"),
-    Phone: z.string().regex(RegExp("^0?5[0-9]{8}$"), "Invalid Phone Number"),
-    Username: z.string().min(5, "Invalid Username"),
-    ConfirmPassword: z.string()
-}).required().refine((args) => args.Password === args.ConfirmPassword, {message:"Passwords do not match", path: ["ConfirmPassword"]})
-
-// https://github.com/Cyber-Square-Pro/cs-plane-ui/blob/main/components/forms/account/sign-up-form.tsx#L26
 
 const SignupPage = () => {
+
+    const userService = new UserService()
 
     const {
         register,
         handleSubmit,
         formState: { errors },
-    } = useForm({ resolver: zodResolver(LoginFormData), mode: "onChange" })
+    } = useForm({ resolver: zodResolver(SignUpValidator), mode: "onChange" })
 
     function onSubmit(data: any) {
+        return userService.addUser(data).then((response) => {
+            console.log(response?.message)
+        })
     }
 
     return (
